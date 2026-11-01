@@ -34,8 +34,8 @@ export function PortalCustomer() {
       </>}
       {tab === "statement" && <div className="grid g2">
         <div className="card"><h2>Statement · {P.month}</h2>
-          <Table cols={["Line", "₹ Cr"]} num={[1]} rows={[["Energy: " + fmt(S.load, 0) + " MWh × ₹6.30 (incl. delivery)", fmt(S.billEnergy, 2)], ["Platform fee: 100 MW × ₹1.5 lakh", fmt(S.fee, 2)], ["Service credit (" + fmt(pts, 1) + " points below 90%)", S.payout > 0 ? "−" + fmt(S.payout, 2) : "0.00"], [<b>Total payable</b>, <b>{fmt(S.bill - S.payout, 2)}</b>]]} />
-          <p className="small muted">All-in ₹6.50/kWh vs ~₹6.51 to build it yourself, with no equity, no assets on your balance sheet and an assured hourly number.</p>
+          <Table cols={["Line", "₹ Cr"]} num={[1]} rows={[["Energy: " + fmt(S.load, 0) + " MWh × ₹6.50 (incl. delivery)", fmt(S.billEnergy, 2)], ["Platform fee: 100 MW × ₹1.5 lakh", fmt(S.fee, 2)], ["Pool rebate: ₹0.10/kWh (state pool full)", S.rebate > 0 ? "−" + fmt(S.rebate, 2) : "0.00"], ["Service credit (" + fmt(pts, 1) + " points below 90%)", S.payout > 0 ? "−" + fmt(S.payout, 2) : "0.00"], [<b>Total payable</b>, <b>{fmt(S.bill - S.payout, 2)}</b>]]} />
+          <p className="small muted">All-in ₹6.70/kWh (₹6.60 after the pool rebate) vs ~₹7.00 to build it yourself, with no equity, no assets on your balance sheet and an assured hourly number.</p>
         </div>
         <div className="card"><h2>What you can report</h2><Table cols={["Framework", "Number"]} rows={[["SBTi Net-Zero v2 (C32), hourly", pct(S.score, 1)], ["Annual matching", "100%"], ["BRSR Core, renewable share", pct(S.score, 1)], ["Scope 2 market-based, t CO₂", fmt((S.load - S.clean) * 0.71, 0)]]} /><p className="small muted">Independent verifier opinion attached each month.</p></div>
       </div>}

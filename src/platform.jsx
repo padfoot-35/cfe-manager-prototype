@@ -57,7 +57,7 @@ export function Money() {
           <text x={X2} y={top - 10} fontSize="12" fill="#5d6478">zoomed: what we keep, by stream</text>
           <text x={X1} y={top - 10} fontSize="12" fill="#5d6478">partners own the assets</text>
         </svg>
-        <p className="small muted">Source: team platform model v5 (PnL). Partner split of pass-through uses the 100 MW cost stack (solar 2.54, battery 1.54, delivery 1.21, wind 1.08, top-up 0.37 per kWh) and is an estimate.</p>
+        <p className="small muted">Source: team platform model v6 (PnL). Partner split of pass-through uses the 100 MW cost stack (solar 2.54, battery 1.54, delivery 1.21, wind 1.08, top-up 0.37 per kWh) and is an estimate.</p>
       </div>
       <div className="card" style={{ marginTop: 14 }}>
         <h2>Revenue mix, 2027–36 (₹ Cr kept)</h2>
@@ -79,16 +79,16 @@ export function Network() {
   const curve = useMemo(() => [0, 2, 4, 6, 8, 10, 12].map(k => { const s = simulate({ scenario: scen.id === "poolblock" ? "normal" : scen.id, params: { factories: k } }).summary; return { k, margin: +s.marginPerKWh.toFixed(3), pooled: Math.round(s.pooled), netCost: +(P.cost.solar + P.cost.battery + P.cost.wind + P.cost.delivery + P.cost.cert + s.topCost * 1e7 / (s.load * 1000) - (s.pooled * P.poolPrice + s.exch * P.exchangePrice) * 1000 / (s.load * 1000)).toFixed(2) }; }), [scen.id]);
   const cur = simulate({ scenario: scen.id, params: { factories: n } }).summary;
   const netCost = P.cost.solar + P.cost.battery + P.cost.wind + P.cost.delivery + P.cost.cert + cur.topCost * 1e7 / (cur.load * 1000) - (cur.pooled * P.poolPrice + cur.exch * P.exchangePrice) * 1000 / (cur.load * 1000);
-  const loop = [["More data centres", "below the ₹6.51 DIY cost"], ["More midday surplus", "~0.47 kWh per kWh of load here"], ["More factories join pools", "~8 factories per 100 MW, at ₹3.00 vs ₹1.50"], ["Lower cost per clean hour", "₹30 Cr a year per 100 MW (model)"], ["Lower price", "−₹0.84/kWh net cost (model)"]];
+  const loop = [["More data centres", "₹0.30 below the ₹7.00 DIY cost"], ["More midday surplus", "~0.47 kWh per kWh of load here"], ["More factories join pools", "~8 factories per 100 MW, at ₹3.00 vs ₹1.50"], ["Lower cost per clean hour", "₹30 Cr a year per 100 MW (model)"], ["Lower price", "₹0.10/kWh rebate once a pool is 80% full"]];
   return (
     <div>
-      <Head eyebrow="Platform economics" title="The network effect" lede="Only a neutral intermediary can pool one buyer's midday surplus with another's daytime demand. Slide the number of factories in a 100 MW pool and watch the cost of each clean hour fall." />
+      <Head eyebrow="Platform economics" title="The network effect" lede="Our edge is pooling the midday surplus of several data centres in one state with daytime demand; it is upside on top of a core that already pays. Slide the number of factories in a 100 MW pool and watch the cost of each clean hour fall." />
       <Scenario />
       <div className="grid g12">
         <div className="card">
           <h2>Flywheel</h2>
           {loop.map(([a, b], i) => <div key={a} className="row" style={{ padding: "8px 0", borderBottom: "1px solid var(--line)" }}><span className="pill y">{i + 1}</span><div style={{ flex: 1 }}><b>{a}</b><div className="small muted">{b}</div></div><span className="muted">↓</span></div>)}
-          <div className="note" style={{ marginTop: 10 }}>By 2036 the model has <b>53 factories in four state pools</b>. Without pooling, 2036 EBITDA falls by <b>₹234 Cr</b>: the largest single lever, and one only an intermediary can pull.</div>
+          <div className="note" style={{ marginTop: 10 }}>By 2036 the model has <b>50 factories in four state pools</b>, adding <b>₹167 Cr</b> to 2036 EBITDA. Without any pooling the core business still earns <b>₹186 Cr</b>, with no credit line.</div>
         </div>
         <div className="card">
           <div className="row"><h2 style={{ flex: 1 }}>Factories in this 100 MW pool: <span className="mono">{n}</span></h2></div>
@@ -121,13 +121,13 @@ export function Unit() {
   const partner = stack.reduce((a, s) => a + s[1], 0);
   const surplus = 0.3294 * (0.7 * pool + 0.3 * ex);
   const feeKWh = fee * 1e5 / 730 / 1000;
-  const energy = 6.45 - 0.75 * feeKWh;
+  const energy = 6.65 - 0.75 * feeKWh; // v6 list price
   const allIn = energy + feeKWh;
   const margin = allIn - partner + surplus;
   const per100 = margin * 876e6 / 1e7;
   return (
     <div>
-      <Head eyebrow="Platform economics" title="Unit economics per 100 MW" lede="Cost to price, per kWh of load, for a 2027 CFE Service contract. Move the drivers to stress the margin; the base case matches the platform model (₹0.60/kWh kept on a ₹6.50 all-in price)." />
+      <Head eyebrow="Platform economics" title="Unit economics per 100 MW" lede="Cost to price, per kWh of load, for a 2027 CFE Service contract. Move the drivers to stress the margin; the base case matches platform model v6 (₹0.80/kWh kept on a ₹6.70 all-in price, ₹0.70 after the ₹0.10 pool rebate; ₹0.46 with no pool)." />
       <div className="grid g12">
         <div className="card">
           <h2>Drivers</h2>
@@ -144,12 +144,12 @@ export function Unit() {
             [<b>Net cost</b>, <b>{fmt(partner - surplus, 2)}</b>],
             [<b style={{ color: margin >= 0 ? "#1f9d63" : "#e5533d" }}>Our margin incl. platform fee</b>, <b style={{ color: margin >= 0 ? "#1f9d63" : "#e5533d" }}>{(margin >= 0 ? "+" : "") + fmt(margin, 2)}</b>],
             [<b>All-in price</b>, <b>{fmt(allIn, 2)}</b>],
-            ["Customer's do-it-yourself cost", "6.51"],
+            ["Customer's do-it-yourself cost, fully costed", "7.00"],
           ]} />
           <div className="grid g3" style={{ marginTop: 12 }}>
             <Kpi l="Net revenue per 100 MW" v={"₹" + fmt(per100, 1) + " Cr"} s="a year" c="y" />
-            <Kpi l="All-in vs DIY" v={fmt(allIn - 6.51, 2)} s="₹/kWh (negative = cheaper)" c={allIn <= 6.51 ? "g" : "r"} />
-            <Kpi l="Lifetime value ÷ cost to win" v="21×" s="₹123 Cr PV ÷ ~₹5.9 Cr" />
+            <Kpi l="All-in vs DIY" v={fmt(allIn - 7.00, 2)} s="₹/kWh vs ₹7.00 (negative = cheaper)" c={allIn <= 7.00 ? "g" : "r"} />
+            <Kpi l="Lifetime value ÷ cost to win" v="23×" s="₹147 Cr PV ÷ ~₹6.3 Cr, fully loaded" />
           </div>
         </div>
       </div>

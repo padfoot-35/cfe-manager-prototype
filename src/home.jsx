@@ -28,7 +28,7 @@ export function Home({ startDemo }) {
         </div>
         <div className="grid g2">
           <div className="stat"><b>{pct(S.score, 1)}</b><span>hourly clean score, {P.month}, 100 MW campus</span></div>
-          <div className="stat"><b>₹6.50</b><span>all-in per kWh vs ~₹6.51 to do it yourself</span></div>
+          <div className="stat"><b>₹6.70</b><span>all-in per kWh, ₹0.30 below the ~₹7.00 to do it yourself</span></div>
           <div className="stat"><b>{fmt(S.pooled, 0)} MWh</b><span>midday surplus pooled to 8 factories this month</span></div>
           <div className="stat"><b>0 MW</b><span>assets owned by CFE Manager</span></div>
         </div>
@@ -45,14 +45,14 @@ export function Home({ startDemo }) {
         <div className="card">
           <h2>CFE Manager console</h2>
           <p className="muted">Run the platform: dispatch, pooling, evidence, growth and governance.</p>
-          <div className="grid g2">{[["control", "Control room", "Live 15-minute dispatch"], ["block", "Block by block", "Merit order in one block"], ["pool", "Pool manager", "The network effect"], ["evidence", "Evidence", "Meter to certificate"], ["diagnostic", "Diagnostic", "Free product, opens every sale"], ["feasibility", "Feasibility", "Size a request, 8 state gates"], ["guarantee", "Guarantee", "Payout and stress test"], ["financials", "Financials", "₹80 Cr to ₹486 Cr net revenue"]].map(([id, t, s]) => (
+          <div className="grid g2">{[["control", "Control room", "Live 15-minute dispatch"], ["block", "Block by block", "Merit order in one block"], ["pool", "Pool manager", "The network effect"], ["evidence", "Evidence", "Meter to certificate"], ["diagnostic", "Diagnostic", "Free product, opens every sale"], ["feasibility", "Feasibility", "Size a request, 8 state gates"], ["guarantee", "Guarantee", "Payout and stress test"], ["financials", "Financials", "₹80 Cr to ₹563 Cr net revenue"]].map(([id, t, s]) => (
             <button key={id} className="uc" style={{ gridTemplateColumns: "1fr auto", marginBottom: 0 }} onClick={() => setPage(id)}><div><b>{t}</b><div className="small muted">{s}</div></div><span>→</span></button>))}</div>
         </div>
         <div className="card">
           <h2>Five things to buy</h2>
-          {[["Diagnostic", "Free", "True hourly score and path to 75% / 90%"], ["Hourly Certificates", "₹145/MWh", "For tenants with no open access"], ["Night Wrap", "₹8 lakh/MW/yr", "Battery-shifted solar + night blocks to ~75%"], ["CFE Service", "₹6.50/kWh all-in", "Full supply, CFE90 guaranteed, 15 years"], ["CFE Ledger", "₹12 lakh/pool/yr", "Assured hourly reporting for SBTi and BRSR"]].map(([n, p, d]) => (
+          {[["Diagnostic", "Free", "True hourly score and path to 75% / 90%"], ["Hourly Certificates", "₹500/MWh", "For tenants with no open access"], ["Night Wrap", "₹8 lakh/MW/yr", "Battery-shifted solar + night blocks to ~75%"], ["CFE Service", "₹6.70/kWh all-in", "Full supply, CFE90 guaranteed, 15 years"], ["CFE Ledger", "₹12 lakh/pool/yr", "Assured hourly reporting for SBTi and BRSR"]].map(([n, p, d]) => (
             <div key={n} className="row" style={{ padding: "7px 0", borderBottom: "1px solid var(--line)" }}><b style={{ width: 150 }}>{n}</b><span className="pill y">{p}</span><span className="small muted" style={{ flex: 1 }}>{d}</span></div>))}
-          <div className="grid g3" style={{ marginTop: 12 }}><Kpi l="2036 net revenue" v="₹486 Cr" c="y" /><Kpi l="2036 EBITDA" v="₹273 Cr" c="g" /><Kpi l="Equity" v="₹80 Cr" /></div>
+          <div className="grid g3" style={{ marginTop: 12 }}><Kpi l="2036 net revenue" v="₹563 Cr" c="y" /><Kpi l="2036 EBITDA" v="₹352 Cr" s="₹186 Cr without pooling" c="g" /><Kpi l="Equity" v="₹80 Cr" /></div>
         </div>
       </div>
     </div>

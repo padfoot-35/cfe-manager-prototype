@@ -57,7 +57,7 @@ export function Diagnostic() {
           <h3 style={{ marginTop: 14 }}>Path to 75%: Night Wrap · {pct(r.wrapScore, 0)}</h3><Barcode hours={r.wrap} />
           <p className="small muted">Battery shifting of your own midday solar plus night green blocks. No new equity for you. We keep about ₹8.1 lakh per MW a year.</p>
           <h3 style={{ marginTop: 14 }}>Path to 90%: CFE Service · {pct(r.cfeScore, 0)}</h3><Barcode hours={r.cfe} />
-          <p className="small muted">Full supply from partner solar, wind and batteries, guaranteed at 90% for 15 years at ₹6.50/kWh all-in (₹6.30 energy + ₹0.21 platform fee), versus ~₹6.51 to do it yourself.</p>
+          <p className="small muted">Full supply from partner solar, wind and batteries, guaranteed at 90% for 15 years at ₹6.70/kWh all-in (₹6.50 energy + ₹0.21 platform fee), ₹0.30 below the ~₹7.00 it costs a typical buyer to do it alone.</p>
           <div className="note" style={{ marginTop: 10 }}><b>Recommended next step: {recommend}.</b> Annual use {fmt(r.annualGWh, 0)} GWh. Start with shadow mode: see your real hourly score for 1–3 months before any commitment.</div>
         </div>}
       </div>
@@ -90,7 +90,7 @@ export function Pipeline() {
           <h2>Not targeted</h2>
           <p>Cost-first industry (~80% of open-access buyers). They buy on price; our value is ESG credibility. They join as <b>factory pool members</b> instead, buying our midday surplus.</p>
           <h2 style={{ marginTop: 14 }}>Go-to-market</h2>
-          <Table cols={["Step", "When", "Price"]} rows={[["1 Diagnostic", "Weeks 0–6", "Free"], ["2 Wrap or Certificates", "Months 2–12", "₹8 lakh/MW or ₹145/MWh"], ["3 CFE Service", "Year 2+, at re-contracting", "~₹0.60/kWh kept"], ["4 Expand", "Every year", "₹12 lakh per pool"]]} />
+          <Table cols={["Step", "When", "Price"]} rows={[["1 Diagnostic", "Weeks 0–6", "Free"], ["2 Wrap or Certificates", "Months 2–12", "₹8 lakh/MW or ₹245/MWh"], ["3 CFE Service", "Year 2+, at re-contracting", "~₹0.70/kWh kept"], ["4 Expand", "Every year", "₹12 lakh per pool"]]} />
         </div>
       </div>
     </div>
@@ -165,7 +165,7 @@ export function Feasibility() {
     const st = STATES.find(s => s.name === f.state);
     const greens = st.gates.filter(g => g === 2).length;
     const route = greens === 8 ? "Quote now" : greens >= 5 ? "Shadow mode, then quote" : "Wait: state not open";
-    setRes({ solar: 380 * k * t, wind: 110 * k * t, batt: 100 * k * t, battH: 400 * k * t, price: 6.50 + (f.target === "CFE95" ? 0.35 : f.target === "CFE75" ? -0.30 : 0), factories: Math.round(8 * k), st, route, greens });
+    setRes({ solar: 380 * k * t, wind: 110 * k * t, batt: 100 * k * t, battH: 400 * k * t, price: (f.mw >= 100 ? 6.60 : f.mw < 20 ? 6.85 : 6.70) + (f.target === "CFE95" ? 0.35 : f.target === "CFE75" ? -0.30 : 0), factories: Math.round(8 * k), st, route, greens });
   };
   useEffect(() => { run(); }, []);
   const dot = g => <span title={g === 2 ? "Green" : g === 1 ? "In progress" : "Not started"} style={{ display: "inline-block", width: 13, height: 13, borderRadius: 7, background: g === 2 ? "#1f9d63" : g === 1 ? "linear-gradient(90deg,#f5b800 50%,#fff 50%)" : "#fff", border: "2px solid " + (g === 2 ? "#1f9d63" : g === 1 ? "#f5b800" : "#e5533d") }} />;

@@ -27,7 +27,7 @@ export function Guarantee() {
             <Kpi l="Service credit" v={pct(payPct, 1)} s="of the monthly bill" />
             <Kpi l="Payout" v={"₹" + fmt(pay, 2) + " Cr"} s={"we bear ₹" + fmt(pay / 2, 2) + " Cr after surety"} c="y" />
           </div>
-          <p className="small muted" style={{ marginTop: 10 }}>Monthly bill for a 100 MW campus ≈ ₹{fmt(bill, 1)} Cr (energy at ₹6.30 incl. delivery + platform fee ₹1.5 lakh/MW/month). Cap reached at 85%.</p>
+          <p className="small muted" style={{ marginTop: 10 }}>Monthly bill for a 100 MW campus ≈ ₹{fmt(bill, 1)} Cr (energy at ₹6.50 incl. delivery + platform fee ₹1.5 lakh/MW/month, less the ₹0.10/kWh pool rebate). Cap reached at 85%.</p>
         </div>
         <div className="card">
           <h2>Stress test: every what-if, re-simulated</h2>
@@ -37,7 +37,7 @@ export function Guarantee() {
       </div>
       <div className="grid g2" style={{ marginTop: 14 }}>
         <div className="card">
-          <h2>What moves 2036 EBITDA (₹273 Cr base)</h2>
+          <h2>What moves 2036 EBITDA (₹352 Cr base)</h2>
           {FIN.tornado.map(([l, lo, hi]) => (
             <div key={l} style={{ display: "grid", gridTemplateColumns: "210px 1fr", gap: 10, alignItems: "center", margin: "8px 0" }}>
               <span className="small">{l}</span>
@@ -49,11 +49,11 @@ export function Guarantee() {
                 {hi > 0 && <span className="mono small" style={{ position: "absolute", right: 4, top: 1 }}>+{hi}</span>}
               </div>
             </div>))}
-          <p className="small muted">₹ Cr change in 2036 EBITDA. Pooling closed in every state is the largest single risk.</p>
+          <p className="small muted">₹ Cr change in 2036 EBITDA vs ₹352 Cr. Pooling closed everywhere is still the largest swing, but the core keeps ₹186 Cr.</p>
         </div>
         <div className="card">
           <h2>Protections</h2>
-          <Table cols={["Layer", "What it does"]} rows={[["Portfolio oversizing", "380 MW solar + 110 MW wind for 100 MW load"], ["Partner battery", "100 MW / 400 MWh shifts midday solar to the night"], ["Green top-up", "Up to 20 MW from G-DAM at ~₹5/kWh"], ["Surety bond", "Covers 50% of guarantee payouts"], ["Partner LCs", "One month of payments, 20% cash margin"], ["Monte Carlo", "300 runs: 2036 EBITDA P10 ₹150 Cr, P50 ₹319 Cr, P90 ₹569 Cr"]]} />
+          <Table cols={["Layer", "What it does"]} rows={[["Portfolio oversizing", "380 MW solar + 110 MW wind for 100 MW load"], ["Partner battery", "100 MW / 400 MWh shifts midday solar to the night"], ["Green top-up", "Up to 20 MW from G-DAM at ~₹5/kWh"], ["Surety bond", "Covers 50% of guarantee payouts"], ["Partner LCs", "One month of payments, 20% cash margin"], ["Monte Carlo", "300 runs: 2036 EBITDA P10 ₹215 Cr, P50 ₹374 Cr, P90 ₹612 Cr; with no pooling P10 ₹44 Cr, P50 ₹215 Cr"], ["Value pricing", "₹6.70 all-in, ₹0.30 below a fully costed DIY, so the core earns ₹186 Cr without pooling"]]} />
         </div>
       </div>
     </div>
@@ -67,11 +67,11 @@ export function Financials() {
   const k = FIN.kpi;
   return (
     <div>
-      <Head eyebrow="Govern" title="Financials: ₹80 Cr to a ₹486 Cr net-revenue platform" lede="Team platform model v5. Gross billings pass through to partners; we report net revenue: platform fees, energy margin, certificates, Night Wrap, Ledger and factory fees." />
+      <Head eyebrow="Govern" title="Financials: ₹80 Cr to a ₹563 Cr net-revenue platform" lede="Team platform model v6: priced at ₹6.70 all-in, ₹0.30 below a fully costed do-it-yourself cost of ₹7.00; the core business earns ₹186 Cr of 2036 EBITDA with no factory pooling, and pooling adds ₹167 Cr on top. Gross billings pass through to partners; we report net revenue: platform fees, energy margin, certificates, Night Wrap, Ledger and factory fees." />
       <div className="grid g6" style={{ marginBottom: 14 }}>
         <Kpi l="Equity raised" v={"₹" + k.equity + " Cr"} s="Seed ₹40 Cr 2027, Series A ₹40 Cr 2029" />
-        <Kpi l="2036 net revenue" v="₹486 Cr" s="gross billings ₹5,386 Cr" c="y" />
-        <Kpi l="2036 EBITDA" v="₹273 Cr" s="56% of net revenue" c="g" />
+        <Kpi l="2036 net revenue" v="₹563 Cr" s="gross billings ₹5,237 Cr" c="y" />
+        <Kpi l="2036 EBITDA" v="₹352 Cr" s="63% of net revenue; ₹186 Cr without pooling" c="g" />
         <Kpi l="EBITDA break-even" v={k.breakEven} />
         <Kpi l="Cumulative FCF positive" v={k.cashPositive} s={"peak need ₹" + k.peak + " Cr"} />
         <Kpi l="Equity IRR" v={k.irr + "%"} s={"LTV/CAC " + k.ltvcac + "×"} />
@@ -102,7 +102,7 @@ export function Financials() {
       <div className="grid g3" style={{ marginTop: 14 }}>
         <div className="card"><h2>Scenarios (2036)</h2><Table cols={["Case", "Net rev.", "EBITDA", "Peak need"]} num={[1, 2, 3]} rows={Object.entries(FIN.scen).map(([n, s]) => [n, "₹" + s.net, "₹" + s.ebitda, "₹" + s.peak])} /><p className="small muted">₹ Cr. Monte Carlo: P(need &gt; ₹95 Cr) = {FIN.mc.pNeed95}%.</p></div>
         <div className="card"><h2>Use of the ₹40 Cr seed</h2>{FIN.useOfFunds.map(([l, v]) => <div key={l} style={{ margin: "6px 0" }}><div className="row"><span style={{ flex: 1 }} className="small">{l}</span><b className="mono small">₹{v} Cr</b></div><div className="bar"><div style={{ width: v / 15.4 * 100 + "%", background: "#0f1630" }} /></div></div>)}</div>
-        <div className="card"><h2>Unit economics</h2><Table cols={["Per kWh, CFE Service", "₹"]} num={[1]} rows={[["Customer pays all-in", "6.50"], ["Partner solar", "2.54"], ["Partner battery", "1.54"], ["Partner wind", "1.08"], ["Delivery and losses", "1.21"], ["Certificates", "0.02"], ["We keep (incl. pooling)", "~0.60"]]} /></div>
+        <div className="card"><h2>Unit economics</h2><Table cols={["Per kWh, CFE Service", "₹"]} num={[1]} rows={[["Customer pays all-in", "6.70"], ["Partner solar", "2.54"], ["Partner battery", "1.54"], ["Partner wind", "1.08"], ["Delivery and losses", "1.21"], ["Certificates", "0.02"], ["We keep (full pool, after ₹0.10 rebate)", "~0.70"]]} /></div>
       </div>
       <div className="card" style={{ marginTop: 14 }}><h2>Ten-year view (₹ Cr)</h2>
         <Table cols={["", ...YEARS]} num={YEARS.map((_, i) => i + 1)} rows={[["Gross billings", ...FIN.gross], ["Net revenue", ...FIN.net], ["Operating costs", ...FIN.costs], ["EBITDA", ...FIN.ebitda], ["Free cash flow", ...FIN.fcf], ["Cumulative FCF", ...FIN.cumFcf], ["Equity in", ...FIN.equity], ["Cash balance", ...FIN.cash], ["CFE Service MW", ...FIN.cfeMW], ["Night Wrap MW", ...FIN.wrapMW], ["Pool factories", ...FIN.factories], ["Headcount", ...FIN.headcount]]} />

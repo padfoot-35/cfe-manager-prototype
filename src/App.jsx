@@ -92,7 +92,7 @@ export default function App() {
         </aside>
         <main className="main" ref={mainRef}>
           <Page startDemo={startDemo} />
-          <div className="foot">Prototype by team EasY Peasy (ISB) for the EY-Parthenon Quest EYP finale. All data simulated: one month (October 2030) of 15-minute blocks for a 100 MW campus and an 8-factory pool, anchored to the team's platform model v5. Partner, customer and factory names are illustrative.</div>
+          <div className="foot">Prototype by team EasY Peasy (ISB) for the EY-Parthenon Quest EYP finale. All data simulated: one month (October 2030) of 15-minute blocks for a 100 MW campus and an 8-factory pool, anchored to the team's platform model v6 (₹6.70 all-in, ₹7.00 do-it-yourself, pooling as upside). Partner, customer and factory names are illustrative.</div>
         </main>
       </div>
 

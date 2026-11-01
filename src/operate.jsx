@@ -199,7 +199,7 @@ export function Pool() {
   const data = D.map(b => ({ t: hhmm(b.b), "To factory pool": +b.pooled.toFixed(1), "To exchange": +b.exch.toFixed(1), "Factory demand cap": +b.poolCap.toFixed(1) }));
   return (
     <div>
-      <Head eyebrow="Operations console · Operate · network effect" title="Pool manager" lede="A portfolio sized for nights makes a midday surplus. Day-shift factories buy it at ₹3.00/kWh (landed ~₹4.1 vs a ₹5.6–6.8 solar-hour HT tariff). Each factory that joins lifts every member's margin." />
+      <Head eyebrow="Operations console · Operate · network effect" title="Pool manager" lede="A portfolio sized for nights makes a midday surplus. Day-shift factories buy it at ₹3.00/kWh (landed ~₹4.1 vs a ₹5.6–6.8 solar-hour HT tariff). Pooling is upside: a full pool lifts our margin from ₹0.46 to ₹0.70/kWh after the ₹0.10 customer rebate." />
       <Scenario />
       <DayControls />
       <div className="grid g5" style={{ marginBottom: 14 }}>
@@ -275,7 +275,7 @@ export function Evidence() {
       {scen.id === "gridcharge" && <div className="note red"><b>Charge-source tracking.</b> Part of the battery's energy came from the grid at night, so that share counts at zero. A naive dashboard would have counted it as clean.</div>}
       <div className="grid g3">
         <div className="card"><h2>Physical ledger · MWh</h2><Table num={[1]} cols={["What flowed", "MWh"]} rows={[["Solar to load", fmt(sol, 1)], ["Wind to load", fmt(wind, 1)], ["Battery discharged", fmt(dis, 1)], ["Green top-up", fmt(top, 1)], ["Grid residual", fmt(grid, 1)], ["Campus load", fmt(load, 1)]]} /></div>
-        <div className="card"><h2>Settlement ledger · who bills whom</h2><Table cols={["Line", "Basis"]} rows={[["Solar PPA", "SOL-GJ-01 · pass-through"], ["Wind PPA", "WND-GJ-02 · pass-through"], ["Battery toll", "BES-GJ-01 · availability"], ["Top-up", "G-DAM confirmation"], ["Customer bill", "₹6.295/kWh + platform fee"]]} /></div>
+        <div className="card"><h2>Settlement ledger · who bills whom</h2><Table cols={["Line", "Basis"]} rows={[["Solar PPA", "SOL-GJ-01 · pass-through"], ["Wind PPA", "WND-GJ-02 · pass-through"], ["Battery toll", "BES-GJ-01 · availability"], ["Top-up", "G-DAM confirmation"], ["Customer bill", "₹6.50/kWh energy + platform fee (₹6.70 all-in) − ₹0.10 pool rebate"]]} /></div>
         <div className="card"><h2>Attribute ledger · what can be claimed</h2><Table num={[1]} cols={["Source", "MWh"]} rows={[["Solar, retired", fmt(sol, 1)], ["Wind, retired", fmt(wind, 1)], ["Stored solar/wind", fmt(dis * (scen.id === "gridcharge" ? 0.7 : 1), 1)], ["Green top-up", fmt(top, 1)], ["Grid (0)", "0.0"], [<b>Matched / load</b>, <b>{fmt(clean, 1)} / {fmt(load, 1)}</b>]]} /></div>
       </div>
       <div className="card" style={{ marginTop: 14 }}>

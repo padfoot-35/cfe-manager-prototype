@@ -1,6 +1,6 @@
 // CFE Manager simulation engine: one month (Oct 2030) in 15-minute blocks for one 100 MW campus
 // plus a factory pool. Deterministic synthetic weather. All numbers are illustrative and
-// anchored to the team's platform model v5 (prices, cost stack, pooling).
+// anchored to the team's platform model v6 (prices, cost stack, pooling).
 
 export const P = {
   month: "October 2030", days: 31, blocks: 96,
@@ -11,7 +11,7 @@ export const P = {
   poolShare: 0.70,             // max share of surplus that can be pooled (captive rules)
   factories: 8, factoryMW: 8.5, shiftStart: 8, shiftEnd: 18,
   topupCapMW: 20, topupPrice: 5.0,
-  priceEnergy: 6.295, feeLakhPerMWMonth: 1.5, allIn: 6.50, diy: 6.51,
+  priceEnergy: 6.496, listPrice: 6.65, feeLakhPerMWMonth: 1.5, allIn: 6.70, diy: 7.00, rebate: 0.10, // v6: energy after 75% fee carve-out; rebate once the state pool is 80% full
   cost: { solar: 2.54, battery: 1.54, wind: 1.08, delivery: 1.21, cert: 0.02 },
   poolPrice: 3.00, exchangePrice: 1.50, factorySaving: 2.0, factoryFeeShare: 0.10,
   payoutPerPoint: 0.02, payoutCap: 0.10, suretyShare: 0.5, floor: 0.90, co2: 0.71,
@@ -125,14 +125,15 @@ export function summarize(B, p = P, sc = "normal", mode = "engine") {
   const topCost = top * 1000 * p.topupPrice / 1e7;
   const surplusRev = (pooled * p.poolPrice + exch * p.exchangePrice) * 1000 / 1e7;
   const factoryFees = pooled * 1000 * p.factorySaving * p.factoryFeeShare / 1e7;
-  const bill = billEnergy + fee;
+  const rebate = (mode === "engine" && sc !== "poolblock") ? kWh * p.rebate / 1e7 : 0; // pool full in this month
+  const bill = billEnergy + fee - rebate;
   const pts = Math.max(0, (p.floor - score) * 100);
   const payout = Math.min(p.payoutCap, pts * p.payoutPerPoint) * bill;
   const margin = bill - partner - topCost + surplusRev + factoryFees - payout * (1 - p.suretyShare);
   return {
     load, clean, grid, pooled, exch, top, dis, score, hours, below,
     worst: hours.reduce((m, x) => x.score < m.score ? x : m, hours[0]),
-    bill, billEnergy, fee, partner, topCost, surplusRev, factoryFees, payout, margin,
+    bill, billEnergy, fee, rebate, partner, topCost, surplusRev, factoryFees, payout, margin,
     marginPerKWh: margin * 1e7 / kWh, co2: clean * p.co2,
   };
 }
